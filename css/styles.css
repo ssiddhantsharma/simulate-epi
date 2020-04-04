@@ -1,0 +1,706 @@
+/*
+  Background: #1b242d;
+  Alternate 1: #0e496d; Lightish blue
+  Alternate 2: #0b3249; Darker blue
+  Alternate 3: #424e5b; Steel grey
+
+  Basic text: #E5E3E1;
+ */
+
+
+/*
+  General Typography and  Helpers
+ */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Oswald:400,300);
+
+* {
+  box-sizing: border-box;
+}
+
+.visuallyhidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+html, body {
+  background-color: #1b242d;
+  color: #E5E3E1;
+  font-family: Open Sans Condensed, Arial, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, .day-count {
+  font-family: Oswald, Open Sans Condensed, Arial, sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 1em 0;
+}
+
+header h1 {
+  font-size: 3em;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0.5em 0;
+  text-align: center;
+}
+
+h3, .day-count {
+  font-size: 1.25em;
+  margin: 0;
+}
+
+.instructions h3 {
+  padding: 1em 1em 0;
+}
+
+p {
+  line-height: 1.5em;
+  margin: 0;
+  padding: 0.75em 1.25em;
+}
+
+dl, ol, ul {
+  margin: 0.75em 1.5em;
+}
+
+ol ul {
+  margin-left: 0.5em;
+}
+
+li {
+  margin: 0.5em 0;
+}
+
+.display-meta dl, .display-meta ul {
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+dt, dd {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+dt {
+  font-weight: bold;
+  margin: 0 0.2em 0 0.5em;
+}
+
+.display-meta li {
+  list-style: none;
+}
+
+form ul {
+  margin: 0;
+  text-align: center;
+}
+
+form li {
+  display: inline-block;
+  margin: 0;
+  padding-left: 1em;
+}
+
+footer {
+  margin: 2em 0 1em;
+  text-align: center;
+}
+
+a {
+  color: #FFA824;
+  text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+  color: #ffb84d;
+  text-shadow: 0 0 #ffb84d;
+}
+
+a:active, a:focus {
+  outline: 0;
+}
+
+form {
+  font-size: 14px;
+}
+
+.message {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0 0.5em;
+  text-align: center;
+}
+
+/*
+  Layering
+ */
+
+header, .main-panel, .instructions, .display, footer {
+  position: relative;
+}
+
+header {
+  z-index: 100;
+}
+
+.main-panel, .display {
+  z-index: 50;
+}
+
+.side-panel {
+  z-index: 500;
+}
+
+footer {
+  z-index: 400;
+}
+
+
+/*
+  Grid and positioning
+ */
+
+main {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+
+.main-panel {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.instructions {
+  -webkit-flex: 1 0 5em;
+      -ms-flex: 1 0 5em;
+          flex: 1 0 5em;
+  padding-bottom: 1em;
+  overflow: hidden;
+}
+
+.instructions:hover {
+  -webkit-flex-basis: auto;
+      -ms-flex-preferred-size: auto;
+          flex-basis: auto;
+}
+
+.display-meta {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-top: 1em;
+}
+
+.display-meta div {
+  padding: 0.5em;
+}
+
+.display-meta ul {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+canvas {
+  display: block;
+  margin: auto;
+}
+
+.results {
+  margin: 3em 0 5em;
+}
+
+.form-input {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: stretch;
+      -ms-flex-line-pack: stretch;
+          align-content: stretch;
+
+  padding: 1em;
+}
+
+output, .output {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-flex: 1 1 0;
+      -ms-flex: 1 1 0;
+          flex: 1 1 0;
+}
+
+.input {
+  -webkit-flex: 2 1 0;
+      -ms-flex: 2 1 0;
+          flex: 2 1 0;
+}
+
+
+/*
+  Theme
+ */
+
+header {
+  background: #0e496d linear-gradient(#2c6d93, #0e496d 90%);
+  box-shadow: 0 5px 5px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+.instructions {
+  background: #964514;
+}
+
+.display, .side-panel {
+  box-shadow: 0 -5px 5px rgba(0,0,0,0.5);
+}
+
+.side-panel {
+  background: #0e496d;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0 auto;
+}
+
+thead {
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+}
+
+thead td,
+thead th,
+tr.stats td,
+tr.stats th {
+  background: #0e496d;
+}
+
+tbody th,
+tbody td {
+  background: #0b3249;
+}
+
+th  {
+  padding: 0.5em;
+}
+
+th, td {
+  vertical-align: middle;
+}
+
+thead td {
+  text-align: center;
+}
+
+.stats td {
+  font-style: italic;
+}
+
+.divider td {
+  background: #424e5b;
+  font-size: 1em;
+}
+
+td {
+  padding: 0.2em 0.5em;
+  font-size: 1.5em;
+  text-align: right;
+}
+
+.show-config {
+  display: none;
+  margin: 0 auto;
+  max-width: 27em;
+}
+
+.show-config a {
+  display: block;
+  text-align: center;
+}
+
+.show-config dl {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  margin: 1em auto;
+}
+
+.show-config dt, .show-config dd {
+  margin-top: 0.5em;
+}
+
+.show-config dt {
+  -webkit-flex-basis: 50%;
+      -ms-flex-preferred-size: 50%;
+          flex-basis: 50%;
+}
+
+.show-config dd {
+  -webkit-flex-basis: 30%;
+      -ms-flex-preferred-size: 30%;
+          flex-basis: 30%;
+  margin-left: auto;
+}
+
+dd.changed {
+  font-weight: bold;
+}
+
+.form-input:nth-child(2n+1) {
+  background: #0b3249;
+}
+
+output, .output {
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 1px 1px 5px rgba(255,255,255,0.5), -1px -1px 15px rgba(0,0,0,0.5);
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.5em 0 0.5em;
+  text-align: center;
+  width: 100%;
+}
+
+label {
+  display: block;
+  font-family: Oswald, Open Sans Condensed, sans-serif;
+  margin-bottom: 0.5em;
+}
+
+li label {
+  display: inline;
+}
+
+li input[type=radio] {
+  margin-right: 0.5em;
+}
+
+input[type='number'] {
+  background: #0b3249;
+  border: 1px solid #E5E3E1;
+  border-radius: 5px;
+  font-size: 1.1em;
+  color: #E5E3E1;
+  text-align: center;
+  width: 4.5em;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+input[type='range']:focus {
+  outline: 0;
+}
+
+input[type='range']:hover {
+  cursor: pointer;
+}
+
+input[type='range']:active::-moz-range-track {
+  background: #D3DAE3;
+}
+
+input[type='range']:active::-webkit-slider-runnable-track {
+  background: #D3DAE3;
+}
+
+::-moz-range-track {
+  box-shadow: rgba(255,255,255, 0.5) 1px 1px 5px;
+  border-radius: 3px;
+  height: 6px;
+  width: 100%;
+}
+
+::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  box-shadow: rgba(255,255,255, 0.5) 1px 1px 5px;
+  border-radius: 5px;
+  height: 6px;
+  width: 100%;
+}
+
+::-moz-range-thumb {
+  background: #fff linear-gradient(#fff, #999);
+  border: none;
+  border-radius: 50%;
+}
+
+::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: #fff linear-gradient(#fff, #999);
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  margin: -5px;
+}
+
+
+/*
+  Bigger mobile devices and up
+ */
+@media (min-width: 31.25em) {
+
+  /*
+    Grid and positioning
+   */
+
+  .display-meta {
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+
+  .display-meta .day-count {
+    min-width: 2em;
+    padding-right: 1em;
+  }
+
+  .day-count span {
+    display: block;
+    font-size: 1.25em;
+    text-align: right;
+  }
+
+  .canvas-container {
+    margin: 1em auto;
+    max-height: 85vh;
+    width: 90%;
+    max-width: 85vh;
+  }
+
+
+  /*
+    Theme
+   */
+
+  .main-panel {
+    font-size: 16px;
+  }
+
+  .display-meta div {
+    background: #424e5b;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.5),
+                -1px -1px 1px rgba(255,255,255,0.4);
+    margin: 0 0.25em;
+  }
+
+  .display-meta div:last-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  .display-meta div:first-child {
+    border-radius: 0 5px 5px 0;
+  }
+
+  table {
+    border-radius: 5px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.5),
+                -1px -1px 1px rgba(255,255,255,0.4);
+  }
+
+  thead th:last-child {
+    border-top-right-radius: 5px;
+  }
+
+  table tbody:last-child tr:last-child th:first-child {
+    border-bottom-left-radius: 5px;
+  }
+
+  table tbody:last-child tr:last-child td:last-child {
+    border-bottom-right-radius: 5px;
+  }
+}
+
+
+/*
+  Small desktop-size screens and up
+ */
+@media (min-width: 56.25em) {
+
+  /*
+    Layering
+   */
+  
+  .instructions {
+    z-index: 100;
+  }
+
+  /*
+    Grid and positioning
+   */
+  main {
+    -webkit-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse;
+            flex-direction: row-reverse;
+  }
+
+  .main-panel {
+    margin-top: -4.5em;
+    padding: 0 5.5em 3em 0;
+  }
+
+  .simulation-output {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+
+  .side-panel {
+    -webkit-flex: 25% 0 0;
+        -ms-flex: 25% 0 0;
+            flex: 25% 0 0;
+  }
+
+  .instructions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-height: 15em;
+  }
+
+  .instructions div {
+    margin-right: 3.5em;
+    font-size: 0;
+    opacity: 0;
+    transition: font-size 300ms ease-in-out,
+                opacity 500ms ease-in-out 75ms;
+  }
+
+  .instructions h2 {
+    position: absolute;
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    top: 3em;
+    right: -1em;
+  }
+
+  .instructions:hover div {
+    font-size: 1em;
+    opacity: 1;
+  }
+
+  .instructions p {
+    margin: auto;
+    max-width: 50em;
+  }
+
+  header {
+    width: 25%;
+  }
+
+  footer {
+    margin-left: 25%;
+    margin-top: -3em;
+    margin-bottom: 0;
+  }
+
+  ul.output {
+    -webkit-flex: 2;
+        -ms-flex: 2;
+            flex: 2;
+  }
+
+
+  /*
+    Theme
+   */
+  
+  header h1 {
+    font-size: 2.5em;
+  }
+  
+  header, .side-panel {
+    box-shadow: 3px 10px 10px rgba(0,0,0,0.5);
+  }
+
+  .instructions {
+    box-shadow: -3px 0 10px rgba(0,0,0,0.5);
+  }
+
+  .display, .main-panel {
+    box-shadow: none;
+  }
+}
+
+
+/*
+  Average desktop-size screens and up
+ */
+@media (min-width: 87.5em) {
+  .side-panel {
+    -webkit-flex: 25% 0 0;
+        -ms-flex: 25% 0 0;
+            flex: 25% 0 0;
+  }
+
+  header {
+    width: 25%;
+  }
+
+  footer {
+    margin-left: 25%;
+  }
+}

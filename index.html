@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Epidemic Simulator</title>
+  <meta name="description" content="An experimental probability exercise. Investigate how changing variables affects an epidemic in a simulated village.">
+
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="Epidemic Simulator">
+  <meta itemprop="description" content="An experimental probability exercise. Investigate how changing variables affects an epidemic in a simulated village.">
+  <meta itemprop="image" content="http://tachyondecay.github.io/epidemic-simulator/images/demo.png">
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Epidemic Simulator">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://tachyondecay.github.io/epidemic-simulator/">
+  <meta property="og:image" content="http://tachyondecay.github.io/epidemic-simulator/images/demo.png">
+  <meta property="og:description" content="An experimental probability exercise. Investigate how changing variables affects an epidemic in a simulated village.">
+  <meta property="og:site_name" content="Epidemic Simulator">
+  <!-- Twitter card data -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@tachyondecay">
+  <meta name="twitter:creator" content="@tachyondecay">
+  <meta name="twitter:title" content="Epidemic Simulator">
+  <meta name="twitter:description" content="An experimental probability exercise. Investigate how changing variables affects an epidemic in a simulated village.">
+  <meta name="twitter:image:src" content="http://tachyondecay.github.io/epidemic-simulator/images/demo.png">
+
+
+  <link href="css/styles.css" rel="stylesheet"/>
+  <script src="js/jquery-2.1.3.min.js"></script>
+  <script src="js/jcanvas.min.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/runtime.js"></script>
+</head>
+<body>
+  <!--[if lt IE 9]>
+    <p class="IE-notice">
+      Your version of Internet Explorer does not support the features needed for the simulator to run. Perhaps you could try <a href="http://google.com/chrome">Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> instead? Or, upgrade to the latest version of IE.
+    </p>
+  <![endif]-->
+  <!--[if IE 9]>
+    <p class="IE-notice">
+      You are not using the most recent version of Internet Explorer. Your version does not support some of the features used in this site's design. The simulator should still work, but you might have a better time with <a href="http://google.com/chrome">Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>. Or, upgrade to the latest version of IE.
+    </p>
+  <![endif]-->
+  <header>
+    <h1>Epidemic Simulator</h1>
+    <p class="subtitle">An experimental probability exercise.</p>
+  </header>
+
+  <main>
+    <div class="main-panel">
+      <div class="instructions">
+        <h2>Instructions</h2>
+
+        <div>
+          <h3>Be a Researcher</h3>
+          
+          <p>This simulator allows you to model a simplified epidemic. When you click <strong>Run</strong>, the simulation will advance day-by-day. Each day, a villager has a chance of moving into an empty adjacent space on the grid. If healthy, non-immune villagers come into contact with an infected person, they have a chance of catching the disease, unless that person is quarantined. Once the disease has run its course in a villager, they have a chance of recovering or dying. You can tweak all of these variables, and more, and observe how the epidemic changes.</p>
+
+          <p>Each time you conduct a trial the results will appear in the table, and the mean and standard deviation will update. You can clear these results at any time. Note that if you pause a trial and adjust the variables, the simulation will regenerate the grid and reset to Day 0.</p>
+
+          <h3>Make a Hypothesis</h3>
+
+          <p>Rigorous research means trying to isolate the effect a single variable has on a situation by “controlling” for the other variables. To begin to understand how any of these variables affect the epidemic, try the following:</p>
+
+          <ol>
+            <li>Conduct a number of trials, and record the results.
+            <li>Change one variable (e.g., grid dimensions).</li>
+            <li>Make a hypothesis about how your change will affect the outcome of the experiment. Here are some examples, each of different complexity:
+              <ul>
+                <li><i>If I increase the size of the village, fewer people will die.</i></li>
+                <li><i>If I increase the size of the village, the disease will take longer to spread, so fewer people will catch it before the infected die or recover.</i></li>
+                <li><i>If I decrease the size of the village, the epidemic will not last as long, because the disease will spread and then die out more quickly.</i></li>
+              </ul>
+            </li>
+            <li>Conduct the same number of trials as you did in the first experiment and record the results.</li>
+            <li>Compare the mean and standard deviations between the two experiments. Do the data support your hypothesis?</li>
+            <li>Decide on another variable to change, and repeat!</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="simulation-output">
+        <div class="display">
+          <h2 class="visuallyhidden">Simulation Output</h2>
+
+          <div class="display-meta">
+            <div class="controls">
+              <h3>Controls</h3>
+              <ul>
+                <li><button id="new">New Grid</button></li>
+                <li><button id="run">Run</button></li>
+                <li><button id="pause">Pause</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3>Legend</h3>
+              <dl class="legend">
+                <dt data-status="normal">O</dt>
+                <dd>Healthy</dd>
+                <dt data-status="immune">N</dt>
+                <dd>Immune</dd>
+                <dt data-status="infected">/</dt>
+                <dd>Infected</dd>
+                <dt data-status="quarantined">Q</dt>
+                <dd>Quarantined</dd>
+              </dl>
+            </div>
+            <div class="day-count">Day <span>0</span></div>
+          </div>
+
+          <div class="canvas-container">
+            <h3 class="visuallyhidden">Grid</h3>
+            
+            <canvas id="canvas" data-count="day-count" width="300" height="300">Your browser does not support the <code>canvas</code> element. Please upgrade to a modern browser.</canvas>
+          </div>
+        </div>
+        <div class="results">
+          <h2>Results</h2>
+
+          <table id="results">
+            <thead>
+              <tr>
+                <td><button id="clear" title="Remove all results">Clear</button></td>
+                <th scope="col">Duration (days)</th>
+                <th scope="col">Death count</th>
+                <th scope="col">Number who never got ill</th>
+                <th scope="col">Number who got ill and recovered</th>
+              </tr>
+            </thead>
+            <tbody data-round="0">
+              <tr class="divider">
+                <td colspan="5">
+                  <span>Default variables.</span>
+                  <a href="#" class="view-config">View all variables for this round.</a>
+                </td>
+              </tr>
+              <tr class="stats mean">
+                <th scope="row">Mean</th>
+                <td class="day"></td>
+                <td class="dead"></td>
+                <td class="healthy"></td>
+                <td class="recovered"></td>
+              </tr>
+              <tr class="stats std_dev">
+                <th scope="row">Standard Deviation</th>
+                <td class="day"></td>
+                <td class="dead"></td>
+                <td class="healthy"></td>
+                <td class="recovered"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="show-config">
+            <p>Variables changed since the last round of trials are in bold.</p>
+            <dl></dl>
+            <a href="#">Hide</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-panel variables">
+      <h2>Variables</h2>
+
+      <form id="config">
+        <div class="form-input slider">
+          <div class="input">
+            <label for="speed">Simulation Speed</label>
+            <input type="range" name="speed" id="speed" min="0.2" max="3" step="0.2" data-output="%o second?s/day"/>
+          </div>
+          <output for="speed"></output>
+        </div>
+
+        <fieldset id="village">
+          <legend>Village</legend>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="grid_size">Grid Dimensions</label>
+              <input type="range" name="grid_size" id="grid_size" min="2" max="50" step="1"/>
+            </div>
+            <output for="grid_size"></output>
+          </div>
+
+          <div class="form-input regular">
+            <div class="input">
+             <label for="pop">Population</label>
+            </div>
+            <div class="output">
+              <input type="number" name="pop" id="pop" min="2" max="1000" step="1"/>
+            </div>
+          </div>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="infected">Percentage Infected</label>
+              <input type="range" name="infected" id="infected" data-output="%" min="0" max="1" step="0.05"/>
+            </div>
+            <output for="infected"></output>
+          </div>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="immune">Percentage Immune</label>
+              <input type="range" name="immune" id="immune" data-output="%" min="0" max="1" step="0.05"/>
+            </div>
+            <output for="immune"></output>
+          </div>
+        </fieldset>
+
+        <fieldset id="disease">
+          <legend>Disease</legend>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="duration">Duration</label>
+              <input type="range" name="duration" id="duration" min="1" max="15" step="1" data-output="%o day?s" />
+            </div>
+            <output for="duration"></output>
+          </div>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="infects_after">Infectious after</label>
+              <input type="range" name="infects_after" id="infects_after" min="0" max="14" step="1" data-output="%o day?s" />
+            </div>
+            <output for="infects_after"></output>
+          </div>
+
+          <div class="form-input regular">
+            <div class="input">
+              <label for="immune_after">Immune after recovery?</label>
+            </div>
+            <ul class="output">
+              <li><label><input type="radio" name="immune_after" value="1"/>Yes</label></li>
+              <li><label><input type="radio" name="immune_after" value="0"/>No</label></li>
+            </ul>
+          </div>
+
+          <div class="form-input regular">
+            <div class="input">
+              <label for="behaviour">Behaviour when ill</label>
+            </div>
+            <div class="output">
+              <select id="behaviour" name="behaviour">
+                <option value="0">Normal</option>
+                <option value="1">Stationary</option>
+                <option value="2">Quarantined</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset id="prob">
+          <legend>Probabilities</legend>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="prob_death">Probability of death</label>
+              <input type="range" name="prob_death" id="prob_death" min="0" max="1" step="0.05"/>
+            </div>
+            <output for="prob_death"></output>
+          </div>
+
+          <div class="form-input slider">
+            <div class="input">
+              <label for="prob_infection">Probability of infection</label>
+              <input type="range" name="prob_infection" id="prob_infection" min="0" max="1" step="0.05"/>
+            </div>
+            <output for="prob_infection"></output>
+          </div>
+          
+          <div class="form-input slider">
+            <div class="input">
+              <label for="prob_static">Probability of remaining stationary</label>
+              <input type="range" name="prob_static" id="prob_static" min="0" max="1" step="0.05"/>
+            </div>
+            <output for="prob_static"></output>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Inspired by <a href="http://nrich.maths.org/4489/">an NRICH project activity</a>. With love to <a href="http://jquery.com/">jQuery</a> and <a href="http://calebevans.me/projects/jcanvas/">jCanvas</a>. View the source on <a href="https://github.com/tachyondecay/epidemic-simulator/">GitHub</a>.</p>
+  </footer>
+</body>
+</html>
