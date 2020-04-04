@@ -1,8 +1,8 @@
-# Epidemic Simulator
+## Simulate Epi : A simple epidemic simulator.
 
 A JavaScript-based simulator that models an epidemic in a village under very simple parameters.
 
-[**Try it out here.**](http://tachyondecay.github.io/epidemic-simulator/)
+### [**Try it out here.**](https://ssiddhantsharma.github.io/simulate-epi/)
 
 ![Screenshot of the epidemic simulator's control panel and canvas grid.](https://raw.githubusercontent.com/tachyondecay/epidemic-simulator/gh-pages/images/demo.png)
 
